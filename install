@@ -1,0 +1,35 @@
+PACKAGES=(
+    helm
+    kind
+    kubectl
+    nvm
+    skaffold
+)
+
+/usr/bin/clear
+
+echo "********************************************"
+echo "*  Rocket Lawyer CI/CD Dev Tool Installer  *"
+echo "********************************************"
+echo ""
+
+if test ! $(which brew); then
+    echo 'Installing Homebrew...'
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  else
+    echo 'Detected existing homebrew installation. Skipping...'
+fi
+
+touch Brewfile
+for i in "${PACKAGES[@]}"
+do
+    echo brew \"${i}\" >> Brewfile
+done
+
+
+echo "Installing packages..."
+brew bundle install
+
+rm -rf Brewfile*
+echo "Installation Complete!"
+
